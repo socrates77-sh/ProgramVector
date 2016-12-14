@@ -102,6 +102,9 @@
     <Compile Include="vecMC30P011.vb" />
     <Compile Include="vecMC30P081.vb" />
     <Compile Include="vecMC30P6060.vb" />
+    <Compile Include="vecMC30P6070.vb" />
+    <Compile Include="vecMC30P6080.vb" />
+    <Compile Include="vecMC30P6090.vb" />
     <Compile Include="vecMC31P11.vb" />
     <Compile Include="vecMC32P21.vb" />
     <Compile Include="vecMC32P5222.vb" />
