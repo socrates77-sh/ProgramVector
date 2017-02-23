@@ -26,10 +26,11 @@
 '1.13.1 更正MC32P5312, MC32P7031向量问题 2016/9/20
 '1.13.2 修改MC32P5312的cksum算法 2016/11/2
 '1.14.0 增加MC30P6070, MC30P6080, MC30P6090型号 2016/12/14
+'1.14.1 修改MC30P6080的cksum算法 2017/2/23
 
 
 Public Class myMain
-    Const sVersion As String = "1.14.0"
+    Const sVersion As String = "1.14.1"
 
     Dim saChipList() As String = { _
         "MC20P01", _

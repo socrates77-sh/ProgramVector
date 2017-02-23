@@ -168,7 +168,8 @@ Module vecMC30P6080
                 nNotFF += 1
             End If
         Next
-        CheckSum = CheckSum And &H3FFF  'remain 14 bit
+        'CheckSum = CheckSum And &H3FFF  'remain 14 bit
+        CheckSum = CheckSum And &HFFFF  'remain 16 bit
         Return True
     End Function
 
