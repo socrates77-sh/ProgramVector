@@ -1,8 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
-MinimumVisualStudioVersion = 10.0.40219.1
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ProgramVector", "ProgramVector\ProgramVector.vbproj", "{5433015E-FC08-4F9E-91B6-B7E514B91C1A}"
 EndProject
 Global

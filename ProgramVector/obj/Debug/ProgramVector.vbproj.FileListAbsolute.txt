@@ -1,0 +1,14 @@
+D:\program\vs2005\ProgramVector\ProgramVector\obj\Debug\ProgramVector.exe
+D:\program\vs2005\ProgramVector\ProgramVector\obj\Debug\ProgramVector.xml
+D:\program\vs2005\ProgramVector\ProgramVector\obj\Debug\ProgramVector.pdb
+D:\program\vs2005\ProgramVector\ProgramVector\bin\Debug\ProgramVector.exe.manifest
+D:\program\vs2005\ProgramVector\ProgramVector\bin\Debug\ProgramVector.application
+D:\program\vs2005\ProgramVector\ProgramVector\bin\Debug\ProgramVector.exe
+D:\program\vs2005\ProgramVector\ProgramVector\bin\Debug\ProgramVector.pdb
+D:\program\vs2005\ProgramVector\ProgramVector\bin\Debug\ProgramVector.xml
+D:\program\vs2005\ProgramVector\ProgramVector\obj\Debug\ProgramVector.Resources.resources
+D:\program\vs2005\ProgramVector\ProgramVector\obj\Debug\ProgramVector.myMain.resources
+D:\program\vs2005\ProgramVector\ProgramVector\obj\Debug\ProgramVector.vbproj.GenerateResource.Cache
+D:\program\vs2005\ProgramVector\ProgramVector\obj\Debug\ProgramVector.TrustInfo.xml
+D:\program\vs2005\ProgramVector\ProgramVector\obj\Debug\ProgramVector.exe.manifest
+D:\program\vs2005\ProgramVector\ProgramVector\obj\Debug\ProgramVector.application
