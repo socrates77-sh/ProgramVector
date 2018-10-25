@@ -117,9 +117,11 @@
     <Compile Include="vecMC32P5222.vb" />
     <Compile Include="vecMC32P5312.vb" />
     <Compile Include="vecMC32P7022.vb" />
+    <Compile Include="vecMC32P7030.vb" />
     <Compile Include="vecMC32P7031.vb" />
     <Compile Include="vecMC32P7510.vb" />
     <Compile Include="vecMC32P7511.vb" />
+    <Compile Include="vecMC32P8112.vb" />
     <Compile Include="vecMC33P116.vb" />
     <Compile Include="vecMC33P74.vb" />
     <Compile Include="vecMC33P78.vb" />
