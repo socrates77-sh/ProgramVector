@@ -22,21 +22,21 @@ Partial Class myMain
     '不要使用代码编辑器修改它。
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox
-        Me.txtProjCode = New System.Windows.Forms.TextBox
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.txtChecksum = New System.Windows.Forms.TextBox
-        Me.Label5 = New System.Windows.Forms.Label
-        Me.txtOPTION = New System.Windows.Forms.TextBox
-        Me.lblOPTION = New System.Windows.Forms.Label
-        Me.btnFileFilter = New System.Windows.Forms.Button
-        Me.txtFileName = New System.Windows.Forms.TextBox
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.cbbChipList = New System.Windows.Forms.ComboBox
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.btnGen = New System.Windows.Forms.Button
-        Me.btnCancel = New System.Windows.Forms.Button
+        Me.components = New System.ComponentModel.Container()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.txtProjCode = New System.Windows.Forms.TextBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.txtChecksum = New System.Windows.Forms.TextBox()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.txtOPTION = New System.Windows.Forms.TextBox()
+        Me.lblOPTION = New System.Windows.Forms.Label()
+        Me.btnFileFilter = New System.Windows.Forms.Button()
+        Me.txtFileName = New System.Windows.Forms.TextBox()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.cbbChipList = New System.Windows.Forms.ComboBox()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.btnGen = New System.Windows.Forms.Button()
+        Me.btnCancel = New System.Windows.Forms.Button()
         Me.ttpMain = New System.Windows.Forms.ToolTip(Me.components)
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
@@ -91,9 +91,9 @@ Partial Class myMain
         Me.Label5.AutoSize = True
         Me.Label5.Location = New System.Drawing.Point(20, 137)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(53, 12)
+        Me.Label5.Size = New System.Drawing.Size(59, 12)
         Me.Label5.TabIndex = 7
-        Me.Label5.Text = "Checksum"
+        Me.Label5.Text = "Cksum/CRC"
         '
         'txtOPTION
         '

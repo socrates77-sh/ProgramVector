@@ -29,10 +29,11 @@
 '1.14.1 修改MC30P6080的cksum算法 2017/2/23
 '1.15.0 增加MC32P7030型号 2018/1/5
 '1.16.0 增加MC32P8112型号 2018/10/25
+'1.17.0 增加MC32P7541型号 2018/11/20
 
 
 Public Class myMain
-    Const sVersion As String = "1.16.0"
+    Const sVersion As String = "1.17.0"
 
     Dim saChipList() As String = { _
         "MC20P01", _
@@ -64,7 +65,8 @@ Public Class myMain
         "MC30P6080", _
         "MC30P6070", _
         "MC30P6090", _
-        "MC32P8112"}
+        "MC32P8112", _
+        "MC32P7541"}
 
     Dim sChipName As String
     Dim sFileName As String
@@ -89,9 +91,11 @@ Public Class myMain
               "MC34P01/MC9039:" & vbTab & "六字节16进制数 OPBIT3:OPTION2:OPTION1" & vbCrLf & _
               "MC33P78/MC33P74/MC32P7022/MC32P7511/MC33P5222/MC32P7031/MC32P7030:" & vbTab & "四字节16进制数 OPTION2:OPTION0" & vbCrLf & _
               "MC30P6060/MC30P6070/MC30P6080:" & vbTab & "六字节16进制数 OPBIT3:OPTION2:OPTION0" & vbCrLf & _
-              "MC32P8112:" & vbTab & "六字节16进制数 OPBIT2:OPTION1:OPTION0" & vbCrLf
+              "MC32P8112:" & vbTab & "六字节16进制数 OPBIT2:OPTION1:OPTION0" & vbCrLf & _
+              "MC32P7541:" & vbTab & "两字节16进制数 UOPTBIT" & vbCrLf
 
         ttpMain.SetToolTip(txtOPTION, str)
+
 
     End Sub
 
@@ -140,6 +144,12 @@ Public Class myMain
                     MessageBox.Show("请输入正确的OPTION值!", "Warnning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                     Exit Sub
                 End If
+            ElseIf sChipName.Contains("MC32P7541") Then
+                nOPTION = Convert.ToUInt32(txtOPTION.Text, 16)
+                If nOPTION > &HFFFFL Then
+                    MessageBox.Show("请输入正确的UOPTBIT值!", "Warnning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    Exit Sub
+                End If
             ElseIf sChipName.Contains("MC9029") Then
                 nOPTION = 0
             Else
@@ -169,13 +179,13 @@ Public Class myMain
         btnGen.Enabled = False
         btnCancel.Enabled = False
 
-        ''for debug
-        'sChipName = "MC32P8112"
+        'for debug
+        'sChipName = "MC32P7541"
         'sProjCode = "a"
-        'sFileName = "D:\work\tool\烧写向量生成器\_HK_F5_T_C07.s19"
-        'nOPTION = &H213173117545
-        'nChecksum = &H4C75
-        'My.Computer.FileSystem.DeleteDirectory("D:\work\tool\烧写向量生成器\MC32P8112_A", FileIO.DeleteDirectoryOption.DeleteAllContents)
+        'sFileName = "D:\work\tool\烧写向量生成器\YTE1408T-7541-7A63-181108-6.s19"
+        'nOPTION = &H2131
+        'nChecksum = &H7A63
+        ''My.Computer.FileSystem.DeleteDirectory("D:\work\tool\烧写向量生成器\MC32P7541_A", FileIO.DeleteDirectoryOption.DeleteAllContents)
 
 
         Select Case sChipName
@@ -239,6 +249,8 @@ Public Class myMain
                 vecMC32P7030.GenVec(sChipName, sProjCode, sFileName, nOPTION, nChecksum)
             Case "MC32P8112"
                 vecMC32P8112.GenVec(sChipName, sProjCode, sFileName, nOPTION, nChecksum)
+            Case "MC32P7541"
+                vecMC32P7541.GenVec(sChipName, sProjCode, sFileName, nOPTION, nChecksum)
             Case Else
                 MessageBox.Show("该型号暂不支持", "Warnning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         End Select
@@ -278,4 +290,5 @@ Public Class myMain
     Private Sub txtProjCode_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtProjCode.TextChanged
         sProjCode = txtProjCode.Text
     End Sub
+
 End Class

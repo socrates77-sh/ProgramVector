@@ -121,6 +121,7 @@
     <Compile Include="vecMC32P7031.vb" />
     <Compile Include="vecMC32P7510.vb" />
     <Compile Include="vecMC32P7511.vb" />
+    <Compile Include="vecMC32P7541.vb" />
     <Compile Include="vecMC32P8112.vb" />
     <Compile Include="vecMC33P116.vb" />
     <Compile Include="vecMC33P74.vb" />
