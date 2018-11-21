@@ -321,11 +321,11 @@ Module vecMC32P7541
 
     Private Sub VecHead()
         sw.WriteLine("HEAD P13,P02,P01,P00,P03,P04,P05,P06,P07,P10,P11,P12,P14,P15,P16,P17;")
-        sw.WriteLine("START1:              (00XXXXXXXXXXXXXX);")
+        sw.WriteLine("START:               (00XXXXXXXXXXXXXX);")
     End Sub
 
     Private Sub VecTail()
-        sw.WriteLine("STOP1:RPT 5          (0XXXXXXXXXXXXXXX);")
+        sw.WriteLine("STOP:RPT 5           (0XXXXXXXXXXXXXXX);")
     End Sub
 
 
@@ -372,9 +372,11 @@ Module vecMC32P7541
                 sVec &= String.Format("                     (01XXXXXXXXXXXXXX);") & vbCrLf
                 sVec &= String.Format("                     (11XXXXXXXXXXXXXX);    //T{0:D} addr[{1:D}]", i, i) & vbCrLf
                 sVec &= String.Format("                     (01XXXXXXXXXXXXXX);") & vbCrLf
+                sVec &= String.Format("                     (01XXXXXXXXXXXXXX);") & vbCrLf
             Else
                 sVec &= String.Format("                     (00XXXXXXXXXXXXXX);") & vbCrLf
                 sVec &= String.Format("                     (10XXXXXXXXXXXXXX);    //T{0:D} addr[{1:D}]", i, i) & vbCrLf
+                sVec &= String.Format("                     (00XXXXXXXXXXXXXX);") & vbCrLf
                 sVec &= String.Format("                     (00XXXXXXXXXXXXXX);") & vbCrLf
             End If
             m <<= 1
