@@ -405,9 +405,11 @@ Module vecMC32P7541
                 sVec &= String.Format("                     (01XXXXXXXXXXXXXX);") & vbCrLf
                 sVec &= String.Format("                     (11XXXXXXXXXXXXXX);    //T{0:D} data[{1:D}]", i, i) & vbCrLf
                 sVec &= String.Format("                     (01XXXXXXXXXXXXXX);") & vbCrLf
+                sVec &= String.Format("                     (01XXXXXXXXXXXXXX);") & vbCrLf
             Else
                 sVec &= String.Format("                     (00XXXXXXXXXXXXXX);") & vbCrLf
                 sVec &= String.Format("                     (10XXXXXXXXXXXXXX);    //T{0:D} data[{1:D}]", i, i) & vbCrLf
+                sVec &= String.Format("                     (00XXXXXXXXXXXXXX);") & vbCrLf
                 sVec &= String.Format("                     (00XXXXXXXXXXXXXX);") & vbCrLf
             End If
             m <<= 1

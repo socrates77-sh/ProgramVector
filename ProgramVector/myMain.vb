@@ -31,10 +31,11 @@
 '1.16.0 增加MC32P8112型号 2018/10/25
 '1.17.0 增加MC32P7541型号 2018/11/20
 '1.17.1 更正MC32P7541的AddressIn向量问题 2018/11/21
+'1.17.2 更正MC32P7541的DataIn向量问题 2018/11/21
 
 
 Public Class myMain
-    Const sVersion As String = "1.17.1"
+    Const sVersion As String = "1.17.2"
 
     Dim saChipList() As String = { _
         "MC20P01", _
