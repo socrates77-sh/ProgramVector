@@ -1,14 +1,14 @@
 Imports System.IO
 
-Module vecMC32P7311
-    Const ID As UInt16 = &H7311
+Module vecMC32P7031
+    Const ID As UInt16 = &H7011
     Const ID_ADDR As UInt16 = &HFFFF
     Const OTP_START As UInt16 = 0           'Valid lowest address
     Const OTP_END As UInt16 = &H7FF         'Valid highest address
     Const ADDRL As UInt16 = 2 * OTP_START
     Const ADDRH As UInt16 = 2 * OTP_END + 1
 
-    'Const PAGE As UInt16 = &HFFF5       'One Page
+    Const PAGE As UInt16 = &HFFF5       'One Page
 
     Dim OTP(ADDRH - ADDRL) As Byte      'All data is stored in this array
     Dim sw As StreamWriter
@@ -56,7 +56,7 @@ Module vecMC32P7311
 
         sLog &= "Chip: " & sChip & vbCrLf
         sLog &= "Project name: " & sProj.ToUpper & vbCrLf
-        sLog &= "OPTION: " & OPT.ToString("X4") & vbCrLf
+        sLog &= "OPTION: " & OPT.ToString("X8") & vbCrLf
         sLog &= "Checksum: " & CheckSum.ToString("X4") & vbCrLf
         sLog &= "Count of byte which is not FFFFH: " & nNotFF.ToString & vbCrLf
 
@@ -177,15 +177,15 @@ Module vecMC32P7311
             VecHead()
             CmdAddress(ID_ADDR)
             CmdDataOut(ID)
-            'CmdAddress(&H8000)  'write PAGE
-            'CmdDataIn(PAGE)
-            'CmdProg()
-            CmdAddress(&H8000)  'write OPBIT0
+            CmdAddress(&H8000)  'write PAGE
+            CmdDataIn(PAGE)
+            CmdProg()
+            CmdAddress(&H8001)  'write OPBIT0
             CmdDataIn(OPT1 And &HFFFFL)
             CmdProg()
-            'CmdAddress(&H8001)  'write OPBIT1
-            'CmdDataIn((OPT1 >> 16) And &HFFFFL)
-            'CmdProg()
+            CmdAddress(&H8003)  'write OPBIT2
+            CmdDataIn((OPT1 >> 16) And &HFFFFL)
+            CmdProg()
             'CmdAddress(&H8004)  'write OPBIT3
             'CmdDataIn((OPT1 >> 32) And &HFFFFL)
             'CmdProg()
@@ -239,12 +239,12 @@ Module vecMC32P7311
             VecHead()
             CmdAddress(ID_ADDR)
             CmdDataOut(ID)
-            'CmdAddress(&H8000)  'read PAGE
-            'CmdDataOut(PAGE)
-            CmdAddress(&H8000)  'read OPBIT0
+            CmdAddress(&H8000)  'read PAGE
+            CmdDataOut(PAGE)
+            CmdAddress(&H8001)  'read OPBIT0
             CmdDataOut(OPT1 And &HFFFFL)
-            'CmdAddress(&H8003)  'read OPBIT2
-            'CmdDataOut((OPT1 >> 16) And &HFFFFL)
+            CmdAddress(&H8003)  'read OPBIT2
+            CmdDataOut((OPT1 >> 16) And &HFFFFL)
             'CmdAddress(&H8004)  'read OPBIT3
             'CmdDataOut((OPT1 >> 32) And &HFFFFL)
 
@@ -276,7 +276,7 @@ Module vecMC32P7311
             VecHead()
             CmdAddress(ID_ADDR)
             CmdDataOut(ID)
-            CmdAddress(&H8000)
+            CmdAddress(&H8001)
             CmdDataIn(&H7FFF)
             CmdProg()
             CmdDataOut(OPT And &HFFFFL)
@@ -291,12 +291,12 @@ Module vecMC32P7311
     End Sub
 
     Private Sub VecHead()
-        sw.WriteLine("HEAD P16,P15,P14,P13,P12,P11,P10,P05,P04,P03,P02,P01,P00,P17;")
-        sw.WriteLine("START:               (0XXXXXXXXXXX0X);")
+        sw.WriteLine("HEAD P03,P54,P04,P53,P02,P01,P52,P45,P00,P40,P41,P42,P43,P44;")
+        sw.WriteLine("START:               (XXX0XXXXXXXXX0)TS0;")
     End Sub
 
     Private Sub VecTail()
-        sw.WriteLine("STOP:                (0XXXXXXXXXXX0X);")
+        sw.WriteLine("STOP:RPT 5           (XXXXXXXXXXXXX0); ")
     End Sub
 
 
@@ -307,18 +307,18 @@ Module vecMC32P7311
 
         sVec = ""
 
-        sVec &= String.Format("RPT 5                (0XXXXXXXXXXXXX);    //Command 0x{0:X2}", cmd) & vbCrLf
+        sVec &= String.Format("RPT 5                (XXXXXXXXXXXXX0);    //Command 0x{0:X2}", cmd) & vbCrLf
 
         m = &H1
         For i = 0 To 5
             If cmd And m Then
-                sVec &= String.Format("                     (0XXXXXXXXXXX1X);") & vbCrLf
-                sVec &= String.Format("                     (1XXXXXXXXXXX1X);    //T{0:D} cmd[{1:D}]", i, i) & vbCrLf
-                sVec &= String.Format("                     (0XXXXXXXXXXX1X);") & vbCrLf
+                sVec &= String.Format("                     (XXX1XXXXXXXXX0);") & vbCrLf
+                sVec &= String.Format("                     (XXX1XXXXXXXXX1);    //T{0:D} cmd[{1:D}]", i, i) & vbCrLf
+                sVec &= String.Format("                     (XXX1XXXXXXXXX0);") & vbCrLf
             Else
-                sVec &= String.Format("                     (0XXXXXXXXXXX0X);") & vbCrLf
-                sVec &= String.Format("                     (1XXXXXXXXXXX0X);    //T{0:D} cmd[{1:D}]", i, i) & vbCrLf
-                sVec &= String.Format("                     (0XXXXXXXXXXX0X);") & vbCrLf
+                sVec &= String.Format("                     (XXX0XXXXXXXXX0);") & vbCrLf
+                sVec &= String.Format("                     (XXX0XXXXXXXXX1);    //T{0:D} cmd[{1:D}]", i, i) & vbCrLf
+                sVec &= String.Format("                     (XXX0XXXXXXXXX0);") & vbCrLf
             End If
             m <<= 1
         Next
@@ -333,20 +333,20 @@ Module vecMC32P7311
 
         sVec = ""
 
-        sVec &= String.Format("RPT 5                (0XXXXXXXXXXXXX);    //Address 0x{0:X4}", addr) & vbCrLf
+        sVec &= String.Format("RPT 5                (XXXXXXXXXXXXX0);    //Address 0x{0:X4}", addr) & vbCrLf
         'sVec &= String.Format("               (XXXXXXX01XXX);   //T{0:D}", 0) & vbCrLf
         'sVec &= String.Format("               (XXXXXXX00XXX);") & vbCrLf
 
         m = &H1
         For i = 0 To 15
             If addr And m Then
-                sVec &= String.Format("                     (0XXXXXXXXXXX1X);") & vbCrLf
-                sVec &= String.Format("                     (1XXXXXXXXXXX1X);    //T{0:D} addr[{1:D}]", i, i) & vbCrLf
-                sVec &= String.Format("                     (0XXXXXXXXXXX1X);") & vbCrLf
+                sVec &= String.Format("                     (XXX1XXXXXXXXX0);") & vbCrLf
+                sVec &= String.Format("                     (XXX1XXXXXXXXX1);    //T{0:D} addr[{1:D}]", i, i) & vbCrLf
+                sVec &= String.Format("                     (XXX1XXXXXXXXX0);") & vbCrLf
             Else
-                sVec &= String.Format("                     (0XXXXXXXXXXX0X);") & vbCrLf
-                sVec &= String.Format("                     (1XXXXXXXXXXX0X);    //T{0:D} addr[{1:D}]", i, i) & vbCrLf
-                sVec &= String.Format("                     (0XXXXXXXXXXX0X);") & vbCrLf
+                sVec &= String.Format("                     (XXX0XXXXXXXXX0);") & vbCrLf
+                sVec &= String.Format("                     (XXX0XXXXXXXXX1);    //T{0:D} addr[{1:D}]", i, i) & vbCrLf
+                sVec &= String.Format("                     (XXX0XXXXXXXXX0);") & vbCrLf
             End If
             m <<= 1
         Next
@@ -364,20 +364,20 @@ Module vecMC32P7311
 
         sVec = ""
 
-        sVec &= String.Format("RPT 5                (0XXXXXXXXXXXXX);    //DataIn 0x{0:X4}", data) & vbCrLf
+        sVec &= String.Format("RPT 5                (XXXXXXXXXXXXX0);   //DataIn 0x{0:X4}", data) & vbCrLf
         'sVec &= String.Format("               (XXXXXXX01XXX);   //T{0:D}", 0) & vbCrLf
         'sVec &= String.Format("               (XXXXXXX00XXX);") & vbCrLf
 
         m = &H1
         For i = 0 To 15
             If data And m Then
-                sVec &= String.Format("                     (0XXXXXXXXXXX1X);") & vbCrLf
-                sVec &= String.Format("                     (1XXXXXXXXXXX1X);    //T{0:D} data[{1:D}]", i, i) & vbCrLf
-                sVec &= String.Format("                     (0XXXXXXXXXXX1X);") & vbCrLf
+                sVec &= String.Format("                     (XXX1XXXXXXXXX0);") & vbCrLf
+                sVec &= String.Format("                     (XXX1XXXXXXXXX1);    //T{0:D} data[{1:D}]", i, i) & vbCrLf
+                sVec &= String.Format("                     (XXX1XXXXXXXXX0);") & vbCrLf
             Else
-                sVec &= String.Format("                     (0XXXXXXXXXXX0X);") & vbCrLf
-                sVec &= String.Format("                     (1XXXXXXXXXXX0X);    //T{0:D} data[{1:D}]", i, i) & vbCrLf
-                sVec &= String.Format("                     (0XXXXXXXXXXX0X);") & vbCrLf
+                sVec &= String.Format("                     (XXX0XXXXXXXXX0);") & vbCrLf
+                sVec &= String.Format("                     (XXX0XXXXXXXXX1);    //T{0:D} data[{1:D}]", i, i) & vbCrLf
+                sVec &= String.Format("                     (XXX0XXXXXXXXX0);") & vbCrLf
             End If
             m <<= 1
         Next
@@ -395,20 +395,20 @@ Module vecMC32P7311
 
         sVec = ""
 
-        sVec &= String.Format("RPT 5                (0XXXXXXXXXXXXX);    //DataOut 0x{0:X4}", data) & vbCrLf
+        sVec &= String.Format("RPT 5                (XXXXXXXXXXXXX0);    //DataOut 0x{0:X4}", data) & vbCrLf
         'sVec &= String.Format("               (XXXXXXX01XXX);   //T{0:D}", 0) & vbCrLf
         'sVec &= String.Format("               (XXXXXXX00XXX);") & vbCrLf
 
         m = &H1
         For i = 0 To 15
             If data And m Then
-                sVec &= String.Format("                     (0XXXXXXXXXXX0X);") & vbCrLf
-                sVec &= String.Format("                     (1XXXXXXXXXXX0H);    //T{0:D} data[{1:D}]", i, i) & vbCrLf
-                sVec &= String.Format("                     (0XXXXXXXXXXX0X);") & vbCrLf
+                sVec &= String.Format("                     (XXX0XXXXXXXXX0);") & vbCrLf
+                sVec &= String.Format("                     (XXX0XXXXXXXXX1);    //T{0:D} data[{1:D}]", i, i) & vbCrLf
+                sVec &= String.Format("                     (XXX0HXXXXXXXX0);") & vbCrLf
             Else
-                sVec &= String.Format("                     (0XXXXXXXXXXX0X);") & vbCrLf
-                sVec &= String.Format("                     (1XXXXXXXXXXX0L);    //T{0:D} data[{1:D}]", i, i) & vbCrLf
-                sVec &= String.Format("                     (0XXXXXXXXXXX0X);") & vbCrLf
+                sVec &= String.Format("                     (XXX0XXXXXXXXX0);") & vbCrLf
+                sVec &= String.Format("                     (XXX0XXXXXXXXX1);    //T{0:D} data[{1:D}]", i, i) & vbCrLf
+                sVec &= String.Format("                     (XXX0LXXXXXXXX0);") & vbCrLf
             End If
             m <<= 1
         Next
@@ -452,18 +452,18 @@ Module vecMC32P7311
         sVec = ""
 
         For i = 0 To 7
-            sVec &= String.Format("                     (1XXXXXXXXXXXXX);    //T{0:D}", i) & vbCrLf
-            sVec &= String.Format("RPT 5                (0XXXXXXXXXXXXX);") & vbCrLf
+            sVec &= String.Format("                     (XXXXXXXXXXXXX1);   //T{0:D}", i) & vbCrLf
+            sVec &= String.Format("RPT 5                (XXXXXXXXXXXXX0);") & vbCrLf
         Next
-        sVec &= String.Format("RPT 550              (0XXXXXXXXXXXXX);    //wait prog time") & vbCrLf
+        sVec &= String.Format("RPT 1000             (XXXXXXXXXXXXX0);   //wait prog time") & vbCrLf
         For i = 0 To 3
-            sVec &= String.Format("                     (1XXXXXXXXXXXXX);    //T{0:D}", i) & vbCrLf
-            sVec &= String.Format("RPT 5                (0XXXXXXXXXXXXX);") & vbCrLf
+            sVec &= String.Format("                     (XXXXXXXXXXXXX1);   //T{0:D}", i) & vbCrLf
+            sVec &= String.Format("RPT 5                (XXXXXXXXXXXXX0);") & vbCrLf
         Next
-        sVec &= String.Format("RPT 20               (0XXXXXXXXXXXXX);") & vbCrLf
+        sVec &= String.Format("RPT 20               (XXXXXXXXXXXXX0);") & vbCrLf
         For i = 0 To 3
-            sVec &= String.Format("                     (1XXXXXXXXXXXXX);    //T{0:D}", i) & vbCrLf
-            sVec &= String.Format("RPT 5                (0XXXXXXXXXXXXX);") & vbCrLf
+            sVec &= String.Format("                     (XXXXXXXXXXXXX1);   //T{0:D}", i) & vbCrLf
+            sVec &= String.Format("RPT 5                (XXXXXXXXXXXXX0);") & vbCrLf
         Next
         sw.Write(sVec)
     End Sub

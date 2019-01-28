@@ -32,10 +32,11 @@
 '1.17.0 增加MC32P7541型号 2018/11/20
 '1.17.1 更正MC32P7541的AddressIn向量问题 2018/11/21
 '1.17.2 更正MC32P7541的DataIn向量问题 2018/11/21
+'1.18.0 增加MC32P7311型号 2019/1/28
 
 
 Public Class myMain
-    Const sVersion As String = "1.17.2"
+    Const sVersion As String = "1.18.0"
 
     Dim saChipList() As String = { _
         "MC20P01", _
@@ -68,7 +69,8 @@ Public Class myMain
         "MC30P6070", _
         "MC30P6090", _
         "MC32P8112", _
-        "MC32P7541"}
+        "MC32P7541", _
+        "MC32P7311"}
 
     Dim sChipName As String
     Dim sFileName As String
@@ -88,7 +90,7 @@ Public Class myMain
         str = "MC10/MC20:" & vbTab & "单字节16进制数" & vbCrLf & _
               "MC30P011/MC31P11:" & vbTab & "四字节16进制数 OPBIT1:OPBIT0" & vbCrLf & _
               "MC33P116:" & vbTab & "四字节16进制数 OPBIT3:OPBIT1" & vbCrLf & _
-              "MC32P21/MC32P7510:" & vbTab & "两字节16进制数 OPBIT0" & vbCrLf & _
+              "MC32P21/MC32P7510/MC32P7311:" & vbTab & "两字节16进制数 OPBIT0" & vbCrLf & _
               "MC30P081/MC32P5312:" & vbTab & "六字节16进制数 OPBIT2:OPTION1:OPTION0" & vbCrLf & _
               "MC34P01/MC9039:" & vbTab & "六字节16进制数 OPBIT3:OPTION2:OPTION1" & vbCrLf & _
               "MC33P78/MC33P74/MC32P7022/MC32P7511/MC33P5222/MC32P7031/MC32P7030:" & vbTab & "四字节16进制数 OPTION2:OPTION0" & vbCrLf & _
@@ -131,7 +133,8 @@ Public Class myMain
                     MessageBox.Show("请输入正确的OPTION值!", "Warnning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                     Exit Sub
                 End If
-            ElseIf sChipName.Contains("MC32P21") Or sChipName.Contains("MC32P7510") Then
+            ElseIf sChipName.Contains("MC32P21") Or sChipName.Contains("MC32P7510") _
+                Or sChipName.Contains("MC32P7311") Then
                 nOPTION = Convert.ToUInt32(txtOPTION.Text, 16)
                 If nOPTION > &HFFFFL Then
                     MessageBox.Show("请输入正确的OPTION值!", "Warnning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
@@ -182,12 +185,12 @@ Public Class myMain
         btnCancel.Enabled = False
 
         'for debug
-        'sChipName = "MC32P7541"
+        'sChipName = "MC32P7311"
         'sProjCode = "a"
         'sFileName = "D:\work\tool\烧写向量生成器\YTE1408T-7541-7A63-181108-6.s19"
         'nOPTION = &H2131
-        'nChecksum = &H7A63
-        ''My.Computer.FileSystem.DeleteDirectory("D:\work\tool\烧写向量生成器\MC32P7541_A", FileIO.DeleteDirectoryOption.DeleteAllContents)
+        'nChecksum = &H223F
+        'My.Computer.FileSystem.DeleteDirectory("D:\work\tool\烧写向量生成器\MC32P7311_A", FileIO.DeleteDirectoryOption.DeleteAllContents)
 
 
         Select Case sChipName
@@ -253,6 +256,8 @@ Public Class myMain
                 vecMC32P8112.GenVec(sChipName, sProjCode, sFileName, nOPTION, nChecksum)
             Case "MC32P7541"
                 vecMC32P7541.GenVec(sChipName, sProjCode, sFileName, nOPTION, nChecksum)
+            Case "MC32P7311"
+                vecMC32P7311.GenVec(sChipName, sProjCode, sFileName, nOPTION, nChecksum)
             Case Else
                 MessageBox.Show("该型号暂不支持", "Warnning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         End Select
